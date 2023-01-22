@@ -9,16 +9,17 @@ using namespace inotify;
 int main(int argc, char** argv)
 {
   if (argc <= 1) {
-      std::cout << "Usage: ./inotify_example /path/to/dir" << std::endl;
+      std::cout << "Usage: ./client /path/to/dir" << std::endl;
       exit(0);
   }
-
+  std::string SYNC_SERV = "http://localhost:7777/commit";
   std::filesystem::path path(argv[1]);
 
   // onChange handler
   auto handleNotification = [&](Notification notification) {
       std::cout << notification.event << "on " << notification.path << " at "
                 << notification.time.time_since_epoch().count() << std::endl;
+      std::system("curl -X PATCH -F file=@" + notification.path);
   };
 
   // Needed events
