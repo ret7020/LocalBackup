@@ -19,7 +19,11 @@ int main(int argc, char** argv)
   auto handleNotification = [&](Notification notification) {
       std::cout << notification.event << "on " << notification.path << " at "
                 << notification.time.time_since_epoch().count() << std::endl;
-      std::system("curl -X PATCH -F file=@" + notification.path);
+      std::string base_cmd = "curl -X PATCH -F file=@";
+      base_cmd += notification.path;
+      base_cmd += " " + SYNC_SERV;
+      std::system(base_cmd.c_str());
+      std::cout << "\n";
   };
 
   // Needed events
