@@ -1,0 +1,12 @@
+[Unit]
+Description=Realtime Sync File With Server
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/home/stephan/Progs/FileSync/Client/client /home/stephan/SYNC
+
+[Install]
+WantedBy=multi-user.target
